@@ -223,7 +223,14 @@
   // provided, provide a default one
   _.some = function(collection, iterator = _.identity) {
     // TIP: There's a very clever way to re-use every() here.
-    
+    return _.reduce(collection, function(acc, item) {
+      if (acc === true) {
+        return true;
+      } else if (iterator(item)) {
+        return true;
+      }   
+      return false;
+    }, false);
   };
 
 
@@ -350,6 +357,15 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var copy = array.slice(0);
+    var temp;
+    for (var i = copy.length - 1; i > 0; i--) {
+      var idx = Math.floor(Math.random() * i);
+      temp = copy[idx];
+      copy[idx] = copy[i];
+      copy[i] = temp;
+    }
+    return copy;
   };
 
 
